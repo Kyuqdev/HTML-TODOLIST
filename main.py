@@ -8,6 +8,7 @@ app = Flask(__name__)
 
 database = SQLManaging("todolist.db")
 todolist = database.get_info()
+
 @app.route('/')
 def index():
     return render_template("index.html")
@@ -22,7 +23,7 @@ def update():
 
     todolist = request.json
     database.update(todolist)
-
+    print(todolist)
     return todolist
 
 def run():
