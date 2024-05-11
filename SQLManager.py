@@ -67,5 +67,5 @@ class SQLManaging():
 
 db = SQLManaging("todolist.db")
 #function to execute other function inside of SQLManaging class used for debugging preferebly comment it
-db.execute_func()
+# db.execute_func()
 #TODO get real

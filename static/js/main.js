@@ -1,4 +1,5 @@
 var todoItems = [];
+let deleteMode = false;
 
 //* puts all of the todos in the list
 function renderTodos() {
@@ -38,12 +39,17 @@ function renderTodos() {
         //* add an event listener to the list item (I'll send links)
         //! basically just makes it so that the item waits until it's clicked to do something
         li.addEventListener('click', function() {
-            
-            //* if the todo is true, make it false, if it's false, make it true (scoliosis legit)
-            todoItems[i].done = !todoItems[i].done;
+            if (deleteMode) {
+                todoItems.splice(i, 1);
+                renderTodos();
+            } else if (!deleteMode) {
 
-            //* rerender the todos to update our html visuals
-            renderTodos();
+                //* if the todo is true, make it false, if it's false, make it true (scoliosis legit)
+                todoItems[i].done = !todoItems[i].done;
+
+                //* rerender the todos to update our html visuals
+                renderTodos();
+            }
         });
     }
 }
@@ -74,6 +80,7 @@ function addTodo() {
     if (todoText !== "") {
         //* add the text to our todoItems list via push (it's like list.append in python)
         todoItems.push({ text: todoText, done: false, id: todoid});
+        console.log(todoItems)
 
         //* rerender the todos to update our html visuals
         renderTodos();
@@ -113,7 +120,16 @@ function updateTodo() {
 }
 
 function deleteTodo() {
-    //*!please mommy laura  HELP ME I TRIED AND IT DIDNT WORK THO I LEFT A BUTTON THERE PLEASE READ ME MOMMY :333
+
+    //* reverse the delete mode
+    deleteMode = !deleteMode;
+
+    //* if delete mode is true, add the class 'delete-mode' to the body to style it, if it's false, remove it
+    if (deleteMode) {
+        document.body.classList.add('delete-mode');
+    } else {
+        document.body.classList.remove('delete-mode');
+    }
 }
 //* get the todos from the server on page load so that they're displayed
 getTodos();
@@ -126,4 +142,9 @@ document.getElementById('todo-update').addEventListener('click', function() {
 //* add an event listener to the add button to add a todo when clicked
 document.getElementById('todo-add').addEventListener('click', function() {
     addTodo();
+});
+
+//* add an event listener to the delete button to toggle delete mode when clicked
+document.getElementById('todo-delete').addEventListener('click', function() {
+    deleteTodo();
 });
