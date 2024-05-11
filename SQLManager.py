@@ -67,6 +67,6 @@ class SQLManaging():
         self.db.commit()
 
 db = SQLManaging("todolist.db")
-#debugging part is execute_func
-db.execute_func()
+#debugging part is execute_func, comment it for it nto to interfere with main.py
+#db.execute_func()
 #TODO get real
