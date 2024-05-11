@@ -44,7 +44,7 @@ class SQLManaging():
         self.db.commit()
         self.create_tables()
         for i in range(len(new_info)):
-            self.cr.execute('''INSERT INTO Todo_list(done, text) values(?, ?, ?)''', [new_info[i-1]["done"],new_info[i-1]["text"], new_info[i-1]["id"]])
+            self.cr.execute('''INSERT INTO Todo_list(done, text, id) values(?, ?, ?)''', [new_info[i-1]["done"],new_info[i-1]["text"], new_info[i-1]["id"]])
         self.db.commit()
     def drop_table(self, table=str):
         self.cr.execute('DROP TABLE '+table)

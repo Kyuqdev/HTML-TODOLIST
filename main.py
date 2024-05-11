@@ -21,8 +21,8 @@ def update():
     global todolist
 
     todolist = request.json
-    database.update(todolist)
-
+    #database.update(todolist)
+    print(todolist)
     return todolist
 
 def run():
