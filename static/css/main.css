@@ -37,14 +37,28 @@ body {
     list-style-type: '❌';
 }
 
-
 .done {
     text-decoration: line-through;
     list-style-type: '✔️' !important;
 }
 
 .delete-mode .todo-list li {
+    transition: color 0.1s;
+}
+
+.delete-mode .todo-list li:hover {
+    color: #d63e3e;
     list-style-type: '🗑️' !important;
+}
+
+
+.delete-mode #todo-delete {
+    background-color: #912b2b;
+}
+
+button:active {
+    transform: scale(0.95);
+    background-color: #2e2e2e;
 }
 
 button {
@@ -55,6 +69,7 @@ button {
     background-color: #313131;
     color: rgb(209, 209, 209);
     cursor: pointer;
+    transition: transform 0.1s, background-color 0.1s;
 }
 
 .todo-manager {
@@ -72,6 +87,12 @@ button {
     background-color: #353035;
     color: rgb(209, 209, 209);
     border-radius: 5px;
+}
+
+.todo-manager input[type="text"]:focus {
+    border-color: rgb(36, 0, 36);
+    /* outline: 1px solid #313131; */
+    outline: none;
 }
 
 #no-todos {
