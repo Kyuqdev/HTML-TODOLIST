@@ -8,6 +8,7 @@ class SQLManaging():
 
     def create_tables(self):
         #creates basic tables for the todo list
+        #this is a test comment
         self.cr.execute('''
                             CREATE TABLE IF NOT EXISTS Todo_list (
                             done INTEGER,
