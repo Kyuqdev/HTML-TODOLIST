@@ -47,3 +47,4 @@ class SQLManaging():
 
 db = SQLManaging("todolist.db")
 db.create_tables()
+#TODO get real
