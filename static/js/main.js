@@ -69,10 +69,11 @@ function addTodo() {
 
     //* get the text value from the input box with the id 'todo-input'
     const todoText = document.getElementById('todo-input').value;
+    const todoid = todoItems.length
 
     if (todoText !== "") {
         //* add the text to our todoItems list via push (it's like list.append in python)
-        todoItems.push({ text: todoText, done: false });
+        todoItems.push({ text: todoText, done: false, id: todoid});
 
         //* rerender the todos to update our html visuals
         renderTodos();
