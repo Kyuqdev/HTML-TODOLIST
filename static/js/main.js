@@ -52,6 +52,12 @@ function renderTodos() {
             }
         });
     }
+    if (todoItems.length === 0) {
+        const p = document.createElement('p');
+        p.innerHTML = 'No todos to show';
+        p.id = 'no-todos';
+        todoList.appendChild(p);
+    }
 }
 
 //* gets todos from the flask server
@@ -148,3 +154,4 @@ document.getElementById('todo-add').addEventListener('click', function() {
 document.getElementById('todo-delete').addEventListener('click', function() {
     deleteTodo();
 });
+

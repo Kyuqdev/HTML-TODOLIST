@@ -13,36 +13,38 @@ body {
 
 .todo-list {
     background-color: #4a474e;
+    min-width: 40%;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .todo-list ul {
-    padding: 50px;
+    padding: 20px 50px;
     overflow: hidden;
     border-radius: 10px;
     border: 1px solid #181818;
     display: flex;
     flex-direction: column;
-    list-style-type: '❌';
+    justify-content: center;
 }
 
 .todo-list li {
     padding: 10px;
     font-size: 20px;
-    margin-left: 20px;
     cursor: pointer;
     user-select: none;
+    list-style-type: '❌';
 }
+
 
 .done {
     text-decoration: line-through;
-    list-style-type: '✅';
+    list-style-type: '✔️' !important;
 }
 
 .delete-mode .todo-list li {
-    list-style-type: '🗑' !important;
+    list-style-type: '🗑️' !important;
 }
 
 button {
@@ -70,4 +72,12 @@ button {
     background-color: #353035;
     color: rgb(209, 209, 209);
     border-radius: 5px;
+}
+
+#no-todos {
+    display: block;
+    text-align: center;
+    font-size: 20px;
+    margin: 20px;
+    color: #a0a0a0;
 }
