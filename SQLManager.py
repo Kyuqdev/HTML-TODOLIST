@@ -65,6 +65,27 @@ class SQLManaging():
         elif which == "drop table":
             self.drop_table(input("Which table?(current tables: Todo_list)"))
 
+    def drop_table(self, table=str):
+        self.cr.execute('DROP TABLE '+table)
+        self.db.commit()
+    def execute_func(self):
+        function_list = ["create tables", "get info", "create part", "drop table"]
+        which = input(("which function?"+ str(function_list)))
+
+
+        while which not in function_list:
+            which = input("not in list or bad pronounc., which function?")
+        if which == "create tables":
+            self.create_tables()
+        elif which == "get info":
+            print(self.get_info())
+        elif which == "create part":
+            self.create_part(textt=input("text"), done=int(input("Done or not? (1 or 0)")))
+        elif which == "drop table":
+            self.drop_table(input("Which table?(current tables: Todo_list)"))
+
+        self.db.commit()
+
 db = SQLManaging("todolist.db")
 #function to execute other function inside of SQLManaging class used for debugging preferebly comment it
 # db.execute_func()
