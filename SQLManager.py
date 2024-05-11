@@ -66,4 +66,6 @@ class SQLManaging():
             self.drop_table(input("Which table?(current tables: Todo_list)"))
 
 db = SQLManaging("todolist.db")
+#function to execute other function inside of SQLManaging class used for debugging preferebly comment it
+#db.execute_func()
 #TODO get real
