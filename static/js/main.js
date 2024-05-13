@@ -57,6 +57,10 @@ function renderTodos() {
         p.innerHTML = 'No todos to show';
         p.id = 'no-todos';
         todoList.appendChild(p);
+        if (deleteMode) {
+            deleteMode = false;
+            document.body.classList.remove('delete-mode');
+        }
     }
 }
 
