@@ -72,6 +72,11 @@ button {
     transition: transform 0.1s, background-color 0.1s;
 }
 
+.active {
+    transform: scale(0.95);
+    background-color: #2e2e2e;
+}
+
 .todo-manager {
     display: flex;
     flex-direction: row;

@@ -159,3 +159,27 @@ document.getElementById('todo-delete').addEventListener('click', function() {
     deleteTodo();
 });
 
+//* add an event listener to the input box to add a todo when enter is pressed
+document.getElementById('todo-input').addEventListener('keypress', function(event) {
+    //* if the key pressed is enter
+    if (event.key === 'Enter') {
+
+        //* get the text value from the input box with the id 'todo-input'
+        const todoText = document.getElementById('todo-input').value;
+        const todoid = todoItems.length;
+
+        //* if the text isn't empty, add the todo
+        if (todoText !== "") {
+            todoItems.push({ text: todoText, done: false, id: todoid });
+            renderTodos();
+            document.getElementById('todo-input').value = '';
+        }
+
+        //* add a class to the add button to make it look like it was clicked for 100ms
+        const button = document.getElementById('todo-add');
+        button.classList.add('active');
+        setTimeout(() => {
+            button.classList.remove('active');
+        }, 100);
+    }
+});
