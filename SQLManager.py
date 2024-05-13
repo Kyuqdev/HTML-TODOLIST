@@ -44,13 +44,13 @@ class SQLManaging:
         )
         records = self.cr.fetchall()
         records_formated = []
-        for i in range(len(records)):
-            if records[i - 1][0] == 1:
+        for record in records:
+            if record[0] == 1:
                 done = True
             else:
                 done = False
             records_formated.append(
-                {"text": records[i - 1][1], "done": done, "id": records[i - 1][2]}
+                {"text": record[1], "done": done, "id": record[2]}
             )
         return records_formated
 
@@ -68,13 +68,13 @@ class SQLManaging:
         self.cr.execute("""DROP TABLE Todo_list;""")
         self.db.commit()
         self.create_tables()
-        for i in range(len(new_info)):
+        for item in new_info:
             self.cr.execute(
                 """INSERT INTO Todo_list(done, text, id) values(?, ?, ?)""",
                 [
-                    new_info[i - 1]["done"],
-                    new_info[i - 1]["text"],
-                    new_info[i - 1]["id"],
+                    item["done"],
+                    item["text"],
+                    item["id"],
                 ],
             )
         self.db.commit()
