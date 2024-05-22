@@ -34,19 +34,19 @@ def get():
 
 @app.route("/api/update", methods=["POST"])
 def update():
+    global todolist
 
     token = request.headers.get("token")
     print(token)
+    print(todolist)
 
     if token != "testtoken":
         return make_response("Unauthorized", 401)
 
     else:
-        global todolist
-
         todolist = request.json
         database.update(todolist)
-        # print(todolist)
+        print(todolist)
         return make_response(todolist, 200)
 
 
