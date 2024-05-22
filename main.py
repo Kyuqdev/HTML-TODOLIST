@@ -20,17 +20,34 @@ def index():
 
 @app.route("/api/get")
 def get():
-    return todolist
+    token = request.headers.get("token")
+    print(token)
+
+    if token != "testtoken":
+        return make_response("Unauthorized", 401)
+
+    else:
+        todolist = database.get_info()
+        print(todolist)
+        return make_response(todolist, 200)
 
 
 @app.route("/api/update", methods=["POST"])
 def update():
-    global todolist
 
-    todolist = request.json
-    database.update(todolist)
-    # print(todolist)
-    return todolist
+    token = request.headers.get("token")
+    print(token)
+
+    if token != "testtoken":
+        return make_response("Unauthorized", 401)
+
+    else:
+        global todolist
+
+        todolist = request.json
+        database.update(todolist)
+        # print(todolist)
+        return make_response(todolist, 200)
 
 
 @app.route("/account/login", methods=["POST"])

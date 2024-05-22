@@ -1,5 +1,20 @@
-var todoItems = [];
+var todoItems = Array();
 let deleteMode = false;
+
+function parseCookie() {
+    if (document.cookie === "") 
+        return {};
+
+    let valuePairs = document.cookie.split(';');
+    let splittedPairs = valuePairs.map(pair => pair.split('='));
+
+    const cookieObject = splittedPairs.reduce((obj, value) => {
+        obj[value[0].trim()] = value[1].trim();
+        return obj;
+    }, {});
+
+    return cookieObject;
+}
 
 //* puts all of the todos in the list
 function renderTodos() {
@@ -9,6 +24,7 @@ function renderTodos() {
 
     //* clear it of any previous values
     todoList.innerHTML = '';
+
 
     //? for each todo item, loop again and make a new list item
     //! (it's like for i in range in python)
@@ -68,15 +84,31 @@ function renderTodos() {
 function getTodos() {
 
     //* fetch via fetch() to the link /api/get (like I sent you in the burger example code snippet)
-    fetch('../api/get')
-        .then(response => response.json())
-        .then(data => {
+    fetch('../api/get', {
+        method: 'GET',
+        headers: {
+            'token': parseCookie()['token'],
+            'Content-Type': 'application/json',
+        }
+    })
+        .then((res) =>{
 
-            //* overwrite our todoItems list with the data we got from the server so that they're synced
-            todoItems = data;
+            if (res.status === 200) {
+                console.log(res)
+                //* overwrite our todoItems list with the data we got from the server so that they're synced
+                todoItems = Array();
+                for (item in res.json()) {
+                    todoItems.push(item)
+                }
 
-            //* rerender the todos to update our html visuals
-            renderTodos();
+                //* rerender the todos to update our html visuals
+                renderTodos();
+            } else {
+                console.log(document.cookie)
+                document.cookie = 'token=; max-age=0; path=/';
+                alert("You are not logged in. Please log in to view your todos.")
+                window.location.reload();
+            }
         });
 }
 
@@ -85,12 +117,13 @@ function addTodo() {
 
     //* get the text value from the input box with the id 'todo-input'
     const todoText = document.getElementById('todo-input').value;
-    const todoid = todoItems.length
+    const todoid = todoItems.length;
 
     if (todoText !== "") {
         //* add the text to our todoItems list via push (it's like list.append in python)
         todoItems.push({ text: todoText, done: false, id: todoid});
         console.log(todoItems)
+
 
         //* rerender the todos to update our html visuals
         renderTodos();
@@ -112,6 +145,7 @@ function updateTodo() {
 
         //* set the headers to json (required since theres other types of data)
         headers: {
+            'token': parseCookie()['token'],
             'Content-Type': 'application/json',
         },
 

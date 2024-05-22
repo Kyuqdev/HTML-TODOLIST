@@ -25,13 +25,13 @@ function attemptLogin() {
             //* if the response is 200, set the token cookie to the response token
             if (res.status === 200) {
 
-            //* set the token cookie to the response token with a max age of 1 day, then reload the page
-            document.cookie = `token=${responseText}; max-age=86400`;
-            window.location.reload();
+                //* set the token cookie to the response token with a max age of 1 day, then reload the page
+                document.cookie = `token=${responseText}; max-age=86400; path=/`;
+                window.location.reload();
             } else {
 
-            //* if the response is not 200, alert the user with the server response message
-            alert(responseText);
+                //* if the response is not 200, alert the user with the server response message
+                alert(responseText);
             }
         });
     });
