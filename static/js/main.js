@@ -251,3 +251,9 @@ document.getElementById('todo-input').addEventListener('keypress', function(even
         }, 100);
     }
 });
+
+//* add an event listener to the log out button to delete the token cookie and reload the page
+document.getElementById('log-out').addEventListener('click', function() {
+    document.cookie = 'token=; max-age=0; path=/';
+    window.location.reload();
+});

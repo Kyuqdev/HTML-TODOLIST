@@ -12,7 +12,7 @@ todolist = database.get_info()
 
 @app.route("/")
 def index():
-    if request.cookies and "token" in request.cookies:
+    if request.cookies and "token" in request.cookies and "token" != "":
         return render_template("index.html")
     else:
         return render_template("login.html")
