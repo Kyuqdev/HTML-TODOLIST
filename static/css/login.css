@@ -24,7 +24,9 @@ form {
 }
 
 input {
-    width: 50%;
+    text-align: center;
+    font-size: 1em;
+    width: 200px;
     padding: 10px;
     margin: 10px 0;
     border: 1px solid #181818;
