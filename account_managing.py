@@ -29,14 +29,14 @@ class account_manager():
             self.all_data[logins[i][0]] = {"login": logins[i][0], "password": passwords[i][0], "token":tokens[i][0]}
 
     def create_account(self, username, password):
-        self.cursor.execute("""SELECT * FROM Accounts""")
         usab = True
-        records = self.cursor.fetchall()[0]
-        if username in records:
-            print("Not usabele username")
-            usab = False
+        print(self.all_data)
+        for i in self.all_data:
+            if i == username:
+                print("Not usable username.")
+                usab = False
 
-        if usab == True:
+        if usab:
             def generate_token(length=8):
                 characters = string.ascii_letters + string.digits
                 token = ''.join(random.choice(characters) for _ in range(length))
@@ -47,7 +47,7 @@ class account_manager():
                                 [username, password, token_gen])
             self.cursor.execute("CREATE TABLE "+token_gen+" ( done INTEGER, text TEXT NOT NULL, id INTEGER PRIMARY KEY)")
             self.db.commit()
-            self.__init__(self.db_name)
+        self.__init__(self.db_name)
 
 
     def drop_all(self):
@@ -69,3 +69,4 @@ class account_manager():
         
 if __name__ == "__main__":
     db = account_manager("Accounts.db")
+    db.create_account("Kyu", "legit me")

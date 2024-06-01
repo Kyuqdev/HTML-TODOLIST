@@ -6,8 +6,9 @@ from account_managing import account_manager
 
 app = Flask(__name__)
 
-database = SQLManaging("todolist.db", "Todo_list")
-todolist = database.get_info()
+acc_database = account_manager("Accounts.db")
+test_database = SQLManaging("todolist.db", "Todo_list")
+todolist = test_database.get_info()
 
 
 @app.route("/")
@@ -24,11 +25,13 @@ def get():
     print(token)
 
     if token == "testtoken":
-        todolist = database.get_info()
+        todolist = test_database.get_info()
         print(todolist)
         return make_response(todolist, 200)
     else:
-        return make_response("Unauthorized", 401)
+        todolist = SQLManaging("Accounts.db", token).get_info()
+        print(todolist)
+        return make_response(todolist, 200)
 
 
 @app.route("/api/update", methods=["POST"])
@@ -41,21 +44,28 @@ def update():
 
     if token == "testtoken":
         todolist = request.json
-        database.update(todolist)
+        test_database.update(todolist)
         print(todolist)
         return make_response(todolist, 200)
         
 
     else:
-        return make_response("Unauthorized", 401)
+        todolist = request.json
+        SQLManaging("Accounts.db", token).update(todolist)
+        print(todolist)
+        return make_response(todolist, 200)
 
 
 @app.route("/account/login", methods=["POST"])
 def login():
     username = request.json["username"]
     password = request.json["password"]
+    print(username)
+    print(password)
 
-    if username == "test":
+    if acc_database.all_data[username]["password"] == password:
+        return make_response(acc_database.all_data[username]["token"], 200)
+    elif username == "test":
         if password == "test":
             return make_response("testtoken", 200)
         return make_response("Wrong password", 401)
