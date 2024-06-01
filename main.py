@@ -24,6 +24,7 @@ def get():
     token = request.headers.get("token")
     print(token)
 
+    # TODO: Add a case for if the token is not in the database
     if token == "testtoken":
         todolist = test_database.get_info()
         print(todolist)
@@ -42,12 +43,12 @@ def update():
     print(token)
     print(todolist)
 
+    # TODO: Add a case for if the token is not in the database
     if token == "testtoken":
         todolist = request.json
         test_database.update(todolist)
         print(todolist)
         return make_response(todolist, 200)
-        
 
     else:
         todolist = request.json
@@ -69,6 +70,34 @@ def login():
         if password == "test":
             return make_response("testtoken", 200)
         return make_response("Wrong password", 401)
+    else:
+        return make_response("Unknown user", 401)
+
+
+@app.route("/account/register", methods=["POST"])
+def register():
+    username = request.json["username"]
+    password = request.json["password"]
+    print(username)
+    print(password)
+
+    # TODO: backend logic for account creation
+
+    if username in []:
+        return make_response("Username already taken", 401)
+    else:
+        # ? create account here
+        return make_response("Account created", 200)
+
+
+@app.route("/account/username", methods=["GET"])
+def get_username():
+    token = request.headers.get("token")
+
+    # TODO: Backend logic
+    # TODO: Add a case for if the token is not in the database
+    if token == "testtoken":
+        return make_response("test", 200)
     else:
         return make_response("Unknown user", 401)
 
