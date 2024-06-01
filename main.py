@@ -2,11 +2,11 @@ from threading import Thread
 import flask
 from flask import Flask, render_template, request, make_response
 from SQLManager import SQLManaging
-
+from account_managing import account_manager
 
 app = Flask(__name__)
 
-database = SQLManaging("todolist.db")
+database = SQLManaging("todolist.db", "Todo_list")
 todolist = database.get_info()
 
 
@@ -23,13 +23,12 @@ def get():
     token = request.headers.get("token")
     print(token)
 
-    if token != "testtoken":
-        return make_response("Unauthorized", 401)
-
-    else:
+    if token == "testtoken":
         todolist = database.get_info()
         print(todolist)
         return make_response(todolist, 200)
+    else:
+        return make_response("Unauthorized", 401)
 
 
 @app.route("/api/update", methods=["POST"])
@@ -40,14 +39,15 @@ def update():
     print(token)
     print(todolist)
 
-    if token != "testtoken":
-        return make_response("Unauthorized", 401)
-
-    else:
+    if token == "testtoken":
         todolist = request.json
         database.update(todolist)
         print(todolist)
         return make_response(todolist, 200)
+        
+
+    else:
+        return make_response("Unauthorized", 401)
 
 
 @app.route("/account/login", methods=["POST"])
