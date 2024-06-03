@@ -8,11 +8,9 @@ class SQLManaging:
         self.cr = self.db.cursor()
         #? ill make this class for managing the user tables
         self.create_table()
-
     def create_table(self):
         self.cr.execute(f"CREATE TABLE IF NOT EXISTS {self.table} (done INTEGER, text TEXT NOT NULL, id INTEGER PRIMARY KEY)")
         self.db.commit()
-
     def get_info(self):
         self.cr.execute(
             f"""
@@ -30,17 +28,14 @@ class SQLManaging:
                 {"text": record[1], "done": done, "id": record[2]}
             )
         return records_formated
-
-    def create_part(self, textt=str, done=False):
+    def create_part(self, textt, done=False):
         self.cr.execute(
             f"""INSERT INTO {self.table}(done, text) values(?,?)""", [done, textt]
         )
         self.db.commit()
-
     def execute_that(self, command):
         self.cr.execute(command)
         self.db.commit()
-
     def update(self, new_info):
         self.cr.execute(f"""DROP TABLE {self.table};""")
         self.db.commit()
@@ -58,7 +53,6 @@ class SQLManaging:
 
     #!next functions arent really useful i just left them in case of maintanance
 
-
     def execute_func(self):
         function_list = ["create tables", "get info", "create part", "drop table"]
         which = input(("which function?" + str(function_list)))
@@ -66,15 +60,11 @@ class SQLManaging:
         while which not in function_list:
             which = input("not in list or bad pronounc., which function?")
         if which == "create tables":
-            self.create_tables()
+            self.create_table()
         elif which == "get info":
             print(self.get_info())
         elif which == "create part":
-            self.create_part(
-                textt=input("text"), done=int(input("Done or not? (1 or 0)"))
-            )
-        elif which == "drop table":
-            self.drop_table(input("Which table?(current tables: Todo_list)"))
+            self.create_part(textt=input("text"), done=int(input("Done or not? (1 or 0)")))
 
         self.db.commit()
 print(__name__)
