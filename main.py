@@ -1,6 +1,7 @@
 from threading import Thread
-import flask
+
 from flask import Flask, render_template, request, make_response
+
 from SQLManager import SQLManaging
 from account_managing import account_manager
 
@@ -21,10 +22,12 @@ def index():
 
 @app.route("/api/get")
 def get():
+    global todolist
     token = request.headers.get("token")
     print(token)
 
-    # TODO: Add a case for if the token is not in the database
+    # _TODO: Add a case for if the token is not in the database
+    acc_database.create_token_table(token)
     if token == "testtoken":
         todolist = test_database.get_info()
         print(todolist)
@@ -43,7 +46,8 @@ def update():
     print(token)
     print(todolist)
 
-    # TODO: Add a case for if the token is not in the database
+    # _TODO (DONE): Add a case for if the token is not in the database
+    acc_database.create_token_table(token)
     if token == "testtoken":
         todolist = request.json
         test_database.update(todolist)
@@ -64,12 +68,16 @@ def login():
     print(username)
     print(password)
 
-    if acc_database.all_data[username]["password"] == password:
-        return make_response(acc_database.all_data[username]["token"], 200)
+    if username in acc_database.users:
+        if acc_database.all_data[username]["password"] == password:
+            return make_response(acc_database.all_data[username]["token"], 200)
+        else:
+            return make_response("Incorrect password", 401)
     elif username == "test":
         if password == "test":
             return make_response("testtoken", 200)
-        return make_response("Wrong password", 401)
+        else:
+            return make_response("Wrong password", 401)
     else:
         return make_response("Unknown user", 401)
 
@@ -80,26 +88,31 @@ def register():
     password = request.json["password"]
     print(username)
     print(password)
+    users = []
+    for i in acc_database.all_data:
+        users.append(i)
 
-    # TODO: backend logic for account creation
-
-    if username in []:
+    if username in users:
         return make_response("Username already taken", 401)
     else:
-        # ? create account here
-        return make_response("Account created", 200)
+        acc_database.create_account(username, password)
+        return make_response(acc_database.all_data[username]["token"], 200)
 
 
 @app.route("/account/username", methods=["GET"])
 def get_username():
     token = request.headers.get("token")
 
-    # TODO: Backend logic
-    # TODO: Add a case for if the token is not in the database
+    # _TODO (DONE): Backend logic
+    # _TODO (DONE: Add a case for if the token is not in the database
+
+    #! from kyu: added the token table creation if the account exists but the table for it doesnt <3
+    acc_database.create_token_table(token)
     if token == "testtoken":
         return make_response("test", 200)
     else:
-        return make_response("Unknown user", 401)
+        return make_response(acc_database.get_username(token), 401)
+        # TODO FOR LAURA: be a good girl, code in the username display in js, love you hun~ <3
 
 
 def run():

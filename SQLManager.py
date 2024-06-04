@@ -9,7 +9,7 @@ class SQLManaging:
         #? ill make this class for managing the user tables
         self.create_table()
     def create_table(self):
-        self.cr.execute(f"CREATE TABLE IF NOT EXISTS {self.table} (done INTEGER, text TEXT NOT NULL, id INTEGER PRIMARY KEY)")
+        self.cr.execute("CREATE TABLE IF NOT EXISTS "+self.table+"(done INTEGER, text TEXT NOT NULL, id INTEGER PRIMARY KEY)")
         self.db.commit()
     def get_info(self):
         self.cr.execute(
@@ -42,11 +42,10 @@ class SQLManaging:
         self.create_table()
         for item in new_info:
             self.cr.execute(
-                f"""INSERT INTO {self.table}(done, text, id) values(?, ?, ?)""",
+                f"""INSERT INTO {self.table}(done, text) values(?, ?)""",
                 [
                     item["done"],
-                    item["text"],
-                    item["id"],
+                    item["text"]
                 ],
             )
         self.db.commit()
