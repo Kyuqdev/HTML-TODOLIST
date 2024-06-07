@@ -50,7 +50,7 @@ def update():
     print(todolist)
 
     # _TODO (DONE): Add a case for if the token is not in the database
-    acc_database.create_token_table(token)
+
     if token == "testtoken":
         todolist = request.json
         test_database.update(todolist)
@@ -117,7 +117,7 @@ def get_username():
     if token == "testtoken":
         return make_response("test", 200)
     else:
-        if acc_database.get_username(token) is not None:
+        if acc_database.get_username(token) != None:
             return make_response(acc_database.get_username(token), 200)
         else:
             return make_response("Unknown user", 401)
@@ -134,4 +134,3 @@ def start():
 
 if __name__ == "__main__":
     start()
-#!im cumming vro~
