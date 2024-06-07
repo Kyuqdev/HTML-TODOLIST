@@ -169,7 +169,7 @@ function updateTodo() {
         //* set the body of the request to the json of our todoItems list
         body: JSON.stringify(todoItems),
     })
-
+        .then(response => {
         if (response.status === 200) {
             response.json().then(data => {
 
@@ -195,6 +195,7 @@ function updateTodo() {
             //* return to the login page
             window.location.reload();
         }
+    });
 }
 
 function deleteTodo() {

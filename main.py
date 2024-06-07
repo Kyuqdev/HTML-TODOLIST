@@ -24,14 +24,20 @@ def index():
 def get():
     global todolist
     token = request.headers.get("token")
+    print(token)
+
+    tokens = []
+    for i in acc_database.all_data:
+        tokens.append(acc_database.all_data[i]["token"])
 
     # _TODO: Add a case for if the token is not in the database
+    # acc_database.create_token_table(token)
     if token == "testtoken":
         todolist = test_database.get_info()
         print(todolist)
         return make_response(todolist, 200)
     else:
-        if account_manager.get_username(token) is None:
+        if token not in tokens:
             return make_response("Unknown user", 401)
         else:
             todolist = SQLManaging("Accounts.db", token).get_info()
@@ -47,6 +53,10 @@ def update():
     print(token)
     print(todolist)
 
+    tokens = []
+    for i in acc_database.all_data:
+        tokens.append(acc_database.all_data[i]["token"])
+
     # _TODO (DONE): Add a case for if the token is not in the database
 
     if token == "testtoken":
@@ -56,7 +66,7 @@ def update():
         return make_response(todolist, 200)
 
     else:
-        if SQLManaging("Accounts.db", token).get_info() is None:
+        if token not in tokens:
             return make_response("Unknown user", 401)
         else:
             todolist = request.json
@@ -112,10 +122,14 @@ def get_username():
 
     #! from kyu: added the token table creation if the account exists but the table for it doesnt <3
 
+    tokens = []
+    for i in acc_database.all_data:
+        tokens.append(acc_database.all_data[i]["token"])
+
     if token == "testtoken":
         return make_response("test", 200)
     else:
-        if acc_database.get_username(token) != None:
+        if token in tokens:
             return make_response(acc_database.get_username(token), 200)
         else:
             return make_response("Unknown user", 401)
