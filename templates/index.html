@@ -7,14 +7,17 @@
 </head>
 
 <body>
+
+    <button id="log-out" type="button">Logout</button>
+
     <div class="todo-list">
         <ul id='todo-list'></ul>
-        <button id='todo-update' type="button">Update</button>
-        <button id='todo-delete' type="button">Delete</button>
+        <button id='todo-update'>Update</button>
+        <button id='todo-delete'>Delete</button>
     </div>
     <div class="todo-manager">
         <input id='todo-input' type="text" placeholder="Put the name of task here ...">
-        <button id='todo-add' type="button">Add</button>
+        <button id='todo-add'>Add</button>
     </div>
 
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>

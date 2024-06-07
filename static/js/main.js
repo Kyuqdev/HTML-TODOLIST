@@ -1,5 +1,29 @@
-var todoItems = [];
+var todoItems = Array();
 let deleteMode = false;
+
+//* parses the cookie into a json object that we can conveniently pull values from
+function parseCookie() {
+
+    //* if the cookie is empty, return an empty object
+    if (document.cookie === "") 
+        return {};
+
+    //* split the cookie into key value pairs
+    let valuePairs = document.cookie.split(';');
+    let splittedPairs = valuePairs.map(pair => pair.split('='));
+
+    //* reduce the key value pairs into a json object
+    const cookieObject = splittedPairs.reduce((obj, value) => {
+
+        //* trim the values to remove any whitespace
+        obj[value[0].trim()] = value[1].trim();
+
+        return obj;
+    }, {});
+
+    //* return the json object
+    return cookieObject;
+}
 
 //* puts all of the todos in the list
 function renderTodos() {
@@ -53,11 +77,15 @@ function renderTodos() {
         });
     }
     if (todoItems.length === 0) {
+
+        //* if there are no todos, add a paragraph to the todo list saying "No todos to show"
         const p = document.createElement('p');
         p.innerHTML = 'No todos to show';
         p.id = 'no-todos';
         todoList.appendChild(p);
         if (deleteMode) {
+
+            //* if delete mode is true, set it to false and remove the class 'delete-mode' from the body for ux sake
             deleteMode = false;
             document.body.classList.remove('delete-mode');
         }
@@ -68,15 +96,37 @@ function renderTodos() {
 function getTodos() {
 
     //* fetch via fetch() to the link /api/get (like I sent you in the burger example code snippet)
-    fetch('../api/get')
-        .then(response => response.json())
-        .then(data => {
+    fetch('../api/get', {
+        method: 'GET',
+        headers: {
+            'token': parseCookie()['token'],
+            'Content-Type': 'application/json',
+        }
+    })
+        .then((res) => {
 
-            //* overwrite our todoItems list with the data we got from the server so that they're synced
-            todoItems = data;
+            //* check the response status
+            //* if it's 200 (okay), continue
+            if (res.status === 200) {
 
-            //* rerender the todos to update our html visuals
-            renderTodos();
+                //* idfk why we have to pull the value like this but yeah
+                res.json().then(data => {
+
+                    //* set our todoItems list to the data we got from the server
+                    todoItems = data;
+
+                    //* rerender the todos to update our html visuals
+                    renderTodos();
+                });
+            } else {
+
+                //* if the response status isn't 200, alert the user with the response text and delete our cookie
+                document.cookie = 'token=; max-age=0; path=/';
+                alert("Corrupted token. Please try logging in again!");
+                
+                //* return to the login page
+                window.location.reload();
+            }
         });
 }
 
@@ -85,12 +135,12 @@ function addTodo() {
 
     //* get the text value from the input box with the id 'todo-input'
     const todoText = document.getElementById('todo-input').value;
-    const todoid = todoItems.length
+    const todoid = todoItems.length;
 
     if (todoText !== "") {
         //* add the text to our todoItems list via push (it's like list.append in python)
         todoItems.push({ text: todoText, done: false, id: todoid});
-        console.log(todoItems)
+
 
         //* rerender the todos to update our html visuals
         renderTodos();
@@ -112,21 +162,39 @@ function updateTodo() {
 
         //* set the headers to json (required since theres other types of data)
         headers: {
+            'token': parseCookie()['token'],
             'Content-Type': 'application/json',
         },
 
         //* set the body of the request to the json of our todoItems list
         body: JSON.stringify(todoItems),
     })
-        .then(response => response.json())
-        .then(data => {
 
-            //* overwrite our todoItems list with the data we got from the server so that they're synced
-            todoItems = data;
+        if (response.status === 200) {
+            response.json().then(data => {
 
-            //* rerender the todos to update our html visuals
-            renderTodos();
-        });
+                //* overwrite our todoItems list with the data we got from the server so that they're synced
+                todoItems = data;
+
+                //* rerender the todos to update our html visuals
+                renderTodos();
+
+                if (deleteMode) {
+
+                    //* if delete mode is true, set it to false and remove the class 'delete-mode' from the body for ux sake
+                    deleteMode = false;
+                    document.body.classList.remove('delete-mode');
+                }
+            });
+        } else { 
+
+            //* if the response status isn't 200, alert the user with the response text and delete our cookie
+            document.cookie = 'token=; max-age=0; path=/';
+            alert("Corrupted token. Please try logging in again!");
+
+            //* return to the login page
+            window.location.reload();
+        }
 }
 
 function deleteTodo() {
@@ -182,4 +250,10 @@ document.getElementById('todo-input').addEventListener('keypress', function(even
             button.classList.remove('active');
         }, 100);
     }
+});
+
+//* add an event listener to the log out button to delete the token cookie and reload the page
+document.getElementById('log-out').addEventListener('click', function() {
+    document.cookie = 'token=; max-age=0; path=/';
+    window.location.reload();
 });
