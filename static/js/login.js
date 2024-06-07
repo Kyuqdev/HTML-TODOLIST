@@ -29,9 +29,8 @@ function attemptLogin() {
                 document.cookie = `token=${responseText}; max-age=86400; path=/`;
                 window.location.reload();
             } else {
-
-                //* if the response is not 200, alert the user with the server response message
-                alert(responseText);
+                const error = document.getElementById("error-message");
+                error.innerHTML = responseText;
             }
         });
     });
@@ -68,9 +67,8 @@ function attemptRegister() {
                 document.cookie = `token=${responseText}; max-age=86400; path=/`;
                 window.location.reload();
             } else {
-
-                //* if the response is not 200, alert the user with the server response message
-                alert(responseText);
+                const error = document.getElementById("error-message");
+                error.innerHTML = responseText;
             }
         });
     });

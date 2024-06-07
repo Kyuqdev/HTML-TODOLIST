@@ -4,11 +4,10 @@ body {
     color: rgb(209, 209, 209);
     margin: 0;
     padding: 30px;
-    display: flex;
+    padding-top: 100px;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
-    min-height: 60vh;
+    display: flex;
 }
 
 h1 {
@@ -24,7 +23,9 @@ form {
 }
 
 input {
-    width: 50%;
+    width: 150px;
+    text-align: center;
+    font-size: 1em;
     padding: 10px;
     margin: 10px 0;
     border: 1px solid #181818;
@@ -38,7 +39,7 @@ input:focus {
 }
 
 button {
-    width: 60px;
+    width: auto;
     padding: 10px;
     margin: 10px;
     border: none;
@@ -58,4 +59,18 @@ button:disabled {
     background-color: #3e3b41;
     color: #5a5a5a;
     cursor: not-allowed;
+}
+
+h2 {
+    font-size: 1em;
+    margin-top: 20px;
+    color: #ff0000;
+}
+
+.buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
 }
