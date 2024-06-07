@@ -121,6 +121,16 @@ class account_manager:
         if command == "init":
             self.__init__(self.db_name)
 
+    def validate_token(self, token):
+        tokens = []
+        for i in self.all_data:
+            tokens.append(self.all_data[i]["token"])
+
+        if token in tokens:
+            return True
+        else:
+            return False
+
 
 if __name__ == "__main__":
     db = account_manager("Accounts.db")
