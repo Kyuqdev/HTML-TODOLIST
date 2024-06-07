@@ -24,16 +24,14 @@ def index():
 def get():
     global todolist
     token = request.headers.get("token")
-    print(token)
 
     # _TODO: Add a case for if the token is not in the database
-    acc_database.create_token_table(token)
     if token == "testtoken":
         todolist = test_database.get_info()
         print(todolist)
         return make_response(todolist, 200)
     else:
-        if SQLManaging("Accounts.db", token).get_info() is None:
+        if account_manager.get_username(token) is None:
             return make_response("Unknown user", 401)
         else:
             todolist = SQLManaging("Accounts.db", token).get_info()
