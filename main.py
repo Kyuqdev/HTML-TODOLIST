@@ -33,9 +33,12 @@ def get():
         print(todolist)
         return make_response(todolist, 200)
     else:
-        todolist = SQLManaging("Accounts.db", token).get_info()
-        print(todolist)
-        return make_response(todolist, 200)
+        if SQLManaging("Accounts.db", token).get_info() is None:
+            return make_response("Unknown user", 401)
+        else:
+            todolist = SQLManaging("Accounts.db", token).get_info()
+            print(todolist)
+            return make_response(todolist, 200)
 
 
 @app.route("/api/update", methods=["POST"])
@@ -55,10 +58,13 @@ def update():
         return make_response(todolist, 200)
 
     else:
-        todolist = request.json
-        SQLManaging("Accounts.db", token).update(todolist)
-        print(todolist)
-        return make_response(todolist, 200)
+        if SQLManaging("Accounts.db", token).get_info() is None:
+            return make_response("Unknown user", 401)
+        else:
+            todolist = request.json
+            SQLManaging("Accounts.db", token).update(todolist)
+            print(todolist)
+            return make_response(todolist, 200)
 
 
 @app.route("/account/login", methods=["POST"])
@@ -107,12 +113,14 @@ def get_username():
     # _TODO (DONE: Add a case for if the token is not in the database
 
     #! from kyu: added the token table creation if the account exists but the table for it doesnt <3
-    acc_database.create_token_table(token)
+
     if token == "testtoken":
         return make_response("test", 200)
     else:
-        return make_response(acc_database.get_username(token), 401)
-        # TODO FOR LAURA: be a good girl, code in the username display in js, love you hun~ <3
+        if acc_database.get_username(token) is not None:
+            return make_response(acc_database.get_username(token), 200)
+        else:
+            return make_response("Unknown user", 401)
 
 
 def run():
