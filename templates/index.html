@@ -7,9 +7,12 @@
 </head>
 
 <body>
+    <script src="https://kit.fontawesome.com/bd75686a6c.js" crossorigin="anonymous"></script>
     <div class="user-info">
-        <h1 id="user-name"></h1>
-        <button id="log-out" type="button">Logout</button>
+        <div class='username-div'>
+            <h1 id="user-name"></h1><i class="fa-solid fa-user"></i>
+        </div>
+        <a id="log-out" href="#">logout</a>
     </div>
     <div class="todo-list">
         <ul id='todo-list'></ul>
@@ -20,7 +23,6 @@
         <input id='todo-input' type="text" placeholder="Put the name of task here ...">
         <button id='todo-add'>Add</button>
     </div>
-
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 </body>
 

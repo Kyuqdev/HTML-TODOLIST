@@ -1,7 +1,7 @@
 function attemptLogin() {
     //* get the values from the username and password fields
     let username = document.getElementById("username").value;
-    let password = document.getElementById("password").value;
+    let password = document.getElementById("hidden-password").innerHTML;
 
     //* create a json object with the username and password
     let loginData = {
@@ -39,7 +39,7 @@ function attemptLogin() {
 function attemptRegister() {
     //* get the values from the username and password fields
     let username = document.getElementById("username").value;
-    let password = document.getElementById("password").value;
+    let password = document.getElementById("hidden-password").innerHTML;
 
     //* create a json object with the username and password
     let registerData = {
@@ -89,7 +89,7 @@ document.getElementById("submit-register").addEventListener('click', function() 
 
 document.getElementById("username").addEventListener('input', function() {
     let username = document.getElementById("username").value;
-    let password = document.getElementById("password").value;
+    let password = document.getElementById("hidden-password").innerHTML;
     let submitLoginBtn = document.getElementById("submit-login");
     let submitRegisterBtn = document.getElementById("submit-register");
 
@@ -104,7 +104,7 @@ document.getElementById("username").addEventListener('input', function() {
 
 document.getElementById("password").addEventListener('input', function() {
     let username = document.getElementById("username").value;
-    let password = document.getElementById("password").value;
+    let password = document.getElementById("hidden-password").innerHTML;
     let submitLoginBtn = document.getElementById("submit-login");
     let submitRegisterBtn = document.getElementById("submit-register");
 
@@ -118,16 +118,12 @@ document.getElementById("password").addEventListener('input', function() {
 });
 
 document.addEventListener('DOMContentLoaded', function() {
-    let username = document.getElementById("username").value;
-    let password = document.getElementById("password").value;
-    let submitLoginBtn = document.getElementById("submit-login");
-    let submitRegisterBtn = document.getElementById("submit-register");
+    passwordInput = document.getElementById("password");
+    passwordInput.value = '';
 
-    if (username === '' || password === '') {
-        submitLoginBtn.disabled = true;
-        submitRegisterBtn.disabled = true;
-    } else {
-        submitLoginBtn.disabled = false;
-        submitRegisterBtn.disabled = false;
-    }
+    registerButton = document.getElementById("submit-register");
+    loginButton = document.getElementById("submit-login");
+
+    registerButton.disabled = true;
+    loginButton.disabled = true;
 });
