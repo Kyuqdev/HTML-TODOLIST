@@ -56,6 +56,10 @@ body {
     background-color: #912b2b;
 }
 
+.remind-mode #todo-update {
+    background-color: #496d3e;
+}
+
 button:active {
     transform: scale(0.95);
     background-color: #2e2e2e;

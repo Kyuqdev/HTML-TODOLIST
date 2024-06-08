@@ -1,4 +1,5 @@
 var todoItems = Array();
+var lastSavedItems = String();
 let deleteMode = false;
 
 //* parses the cookie into a json object that we can conveniently pull values from
@@ -90,6 +91,11 @@ function renderTodos() {
             document.body.classList.remove('delete-mode');
         }
     }
+    if (lastSavedItems !== JSON.stringify(todoItems)) {
+        document.body.classList.add('remind-mode');
+    } else {
+        document.body.classList.remove('remind-mode');
+    }
 }
 
 //* gets todos from the flask server
@@ -114,6 +120,7 @@ function getTodos() {
 
                     //* set our todoItems list to the data we got from the server
                     todoItems = data;
+                    lastSavedItems = JSON.stringify(data);
 
                     //* rerender the todos to update our html visuals
                     renderTodos();
@@ -140,7 +147,6 @@ function addTodo() {
     if (todoText !== "") {
         //* add the text to our todoItems list via push (it's like list.append in python)
         todoItems.push({ text: todoText, done: false, id: todoid});
-
 
         //* rerender the todos to update our html visuals
         renderTodos();
@@ -175,6 +181,7 @@ function updateTodo() {
 
                 //* overwrite our todoItems list with the data we got from the server so that they're synced
                 todoItems = data;
+                lastSavedItems = JSON.stringify(data);
 
                 //* rerender the todos to update our html visuals
                 renderTodos();
@@ -240,6 +247,8 @@ document.getElementById('todo-input').addEventListener('keypress', function(even
         //* if the text isn't empty, add the todo
         if (todoText !== "") {
             todoItems.push({ text: todoText, done: false, id: todoid });
+            console.log(todoItems)
+            console.log(lastSavedItems)
             renderTodos();
             document.getElementById('todo-input').value = '';
         }
