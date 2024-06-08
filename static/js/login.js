@@ -76,9 +76,58 @@ function attemptRegister() {
 }
 
 document.getElementById("submit-login").addEventListener('click', function() {
-    attemptLogin();
+    if (!document.getElementById("submit-login").disabled) {
+        attemptLogin();
+    }
 });
 
 document.getElementById("submit-register").addEventListener('click', function() {
-    attemptRegister();
+    if (!document.getElementById("submit-register").disabled) {
+        attemptRegister();
+    }
+});
+
+document.getElementById("username").addEventListener('input', function() {
+    let username = document.getElementById("username").value;
+    let password = document.getElementById("password").value;
+    let submitLoginBtn = document.getElementById("submit-login");
+    let submitRegisterBtn = document.getElementById("submit-register");
+
+    if (username === '' || password === '') {
+        submitLoginBtn.disabled = true;
+        submitRegisterBtn.disabled = true;
+    } else {
+        submitLoginBtn.disabled = false;
+        submitRegisterBtn.disabled = false;
+    }
+});
+
+document.getElementById("password").addEventListener('input', function() {
+    let username = document.getElementById("username").value;
+    let password = document.getElementById("password").value;
+    let submitLoginBtn = document.getElementById("submit-login");
+    let submitRegisterBtn = document.getElementById("submit-register");
+
+    if (username === '' || password === '') {
+        submitLoginBtn.disabled = true;
+        submitRegisterBtn.disabled = true;
+    } else {
+        submitLoginBtn.disabled = false;
+        submitRegisterBtn.disabled = false;
+    }
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    let username = document.getElementById("username").value;
+    let password = document.getElementById("password").value;
+    let submitLoginBtn = document.getElementById("submit-login");
+    let submitRegisterBtn = document.getElementById("submit-register");
+
+    if (username === '' || password === '') {
+        submitLoginBtn.disabled = true;
+        submitRegisterBtn.disabled = true;
+    } else {
+        submitLoginBtn.disabled = false;
+        submitRegisterBtn.disabled = false;
+    }
 });

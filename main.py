@@ -82,7 +82,6 @@ def register():
 @app.route("/account/username", methods=["GET"])
 def get_username():
     token = request.headers.get("token")
-    print("this the token")
     print(token)
 
     if token == "testtoken":
