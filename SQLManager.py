@@ -27,7 +27,10 @@ class SQLManaging:
             records_formated.append(
                 {"text": record[1], "done": done, "id": record[2]}
             )
-        return records_formated
+        if len(records_formated) !=0:
+            return records_formated
+        else:
+            return []
     def create_part(self, textt, done=False):
         self.cr.execute(
             f"""INSERT INTO {self.table}(done, text) values(?,?)""", [done, textt]
