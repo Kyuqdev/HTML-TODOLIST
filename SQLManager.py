@@ -30,7 +30,7 @@ class SQLManaging:
         if len(records_formated) !=0:
             return records_formated
         else:
-            return None
+            return []
     def create_part(self, textt, done=False):
         self.cr.execute(
             f"""INSERT INTO {self.table}(done, text) values(?,?)""", [done, textt]
