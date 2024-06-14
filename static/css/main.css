@@ -56,6 +56,10 @@ body {
     background-color: #912b2b;
 }
 
+.remind-mode #todo-update {
+    background-color: #496d3e;
+}
+
 button:active {
     transform: scale(0.95);
     background-color: #2e2e2e;
@@ -109,28 +113,49 @@ button {
 }
 
 #log-out {
-    padding: 10px;
+    padding-right: 20px;
+    padding-bottom: 10px;
     border: none;
-    border-radius: 5px;
-    background-color: #313131;
+    text-align: right;
+    text-decoration: none;
     color: rgb(209, 209, 209);
-    cursor: pointer;
-    transition: transform 0.1s, background-color 0.1s;
+    display: none;
 }
 
 .user-info {
     display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: right;
+    flex-direction: column;
+    align-items: end;
+    justify-content: flex-end;
     margin-bottom: 20px;
     position: absolute;
     top: 10px;
     right: 10px;
-    width: 200px;
+}
+
+.username-div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin: 10px 10px 5px 10px;
+}
+
+.user-info:hover {
+    cursor: pointer;
+    background-color: #737373;
+
+    #log-out {
+        display: block;
+    }
+}
+
+#log-out:hover {
+    text-decoration: underline;
 }
 
 #user-name {
-    padding: 5px;
     font-size: 20px;
+    text-align: right;
+    margin: 0 10px 0 0;
 }

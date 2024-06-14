@@ -27,8 +27,6 @@ def get():
 
     if acc_db_iter.validate_token(token):
         todolist = SQLManaging("Accounts.db", token).get_info()
-        print("this the todolist in /api/get")
-        print(todolist)
         return make_response(todolist, 200)
     else:
         return make_response("Unknown user", 401)
@@ -42,7 +40,6 @@ def update():
     if acc_db_iter.validate_token(token):
         todolist = request.json
         SQLManaging("Accounts.db", token).update(todolist)
-        print(todolist)
         return make_response(todolist, 200)
     else:
         return make_response("Unknown user", 401)
@@ -82,7 +79,6 @@ def register():
 @app.route("/account/username", methods=["GET"])
 def get_username():
     token = request.headers.get("token")
-    print("this the token")
     print(token)
 
     if token == "testtoken":
