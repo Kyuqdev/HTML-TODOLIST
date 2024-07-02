@@ -1,0 +1,47 @@
+.footer {
+    height: 100px;
+    width: 100%;
+    background-color: black;
+    color: white;
+    position: relative;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    gap: 20px;
+}
+
+.footer p {
+    margin: 0;
+    padding: 0;
+}
+
+.footer a {
+    color: rgb(170, 77, 170);
+    text-decoration: none;
+
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
+.footer-right {
+    width: 40%;
+
+    p {
+        text-align: left;
+    }
+
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.footer-left {
+    width: 40%;
+
+    p {
+        text-align: right;
+    }
+}
