@@ -5,6 +5,12 @@ from flask import Flask, render_template, request, make_response
 from SQLManager import SQLManaging
 from account_managing import account_manager
 
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+secretPassword = os.environ["SECRET_PASSWORD"]
+
 app = Flask(__name__)
 
 acc_db_iter = account_manager("Accounts.db")
@@ -88,6 +94,29 @@ def get_username():
             return make_response(acc_db_iter.get_username(token), 200)
         else:
             return make_response("Unknown user", 401)
+
+
+@app.route("/api/pull", methods=["POST"])
+def pull():
+    password = request.json["password"]
+
+    if password == secretPassword:
+        return make_response(SQLManaging("Accounts.db", "testtoken").get_info(), 200)
+
+    else:
+        return make_response("Incorrect password", 401)
+
+@app.route("/api/push", methods=["POST"])
+def push():
+    password = request.json["password"]
+    data = request.json["data"]
+
+    if password == secretPassword:
+        global todolist
+        todolist = data
+        return make_response(todolist.get_info(), 200)
+    else:
+        return make_response("Incorrect password", 401)
 
 
 def run():
