@@ -3,5 +3,3 @@ __pycache__
 todolist.db
 
 Accounts.db
-
-.env
